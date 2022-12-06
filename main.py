@@ -4,6 +4,13 @@ from tkinter import messagebox
 import random
 import os
 
+try:
+    with open('highscore.txt', 'r') as f:
+        pass
+except:
+    with open('highscore.txt', 'w') as f:
+        pass
+ 
 root = Tk()
 root.title("Higher Lower")
 
@@ -53,9 +60,7 @@ def main_page():
             your_score_lbl.config(state=DISABLED)
         except:
             pass
-
-
-        
+    
     def lower():
         old = lsd[number['text']]
         img1 = random.choice(ls)
@@ -112,6 +117,17 @@ def main_page():
     your_lbl.place(relx=0.79, rely=0.4)
     your_score_lbl.place(relx=0.79, rely=0.45)
     number.place(relx=0.185, rely=0.15)
+
+    your_score_lbl.config(state=ACTIVE)
+    score = your_score_lbl.get()
+    your_score_lbl.config(state=DISABLED)
+
+    with open('highscore.txt', 'r+') as file:
+        if file.read() == "":
+            file.write(f'[{username},{score}]')
+        else:
+            print(file.read())
+    
     pcard.mainloop()
 
 name_lbl = ttk.Label(root, text="Name: ", anchor=CENTER, font=("",14))
